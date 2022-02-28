@@ -17,7 +17,7 @@
 <body>
 
 
-    
+
     <!-- indiv mobile details showing with  model -->
 
 
@@ -30,7 +30,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <img src="./shoes/casual-02.png" class="card-img-top img-fluid" alt="...">
+                    <img src="./casual-02.png" class="card-img-top img-fluid" alt="...">
                     <h5>Mobile Model </h5>
                     <p>Relasce Date : </p>
                 </div>
@@ -42,18 +42,20 @@
     </div>
 
 
+    <!-- bannar/headline section  -->
 
     <h1 class="container bg-danger text-white text-capitalize text-center p-3">YOYO!! showUp's
     </h1>
 
     <div class="container w-50 m-auto">
+        <!-- search section -->
         <div class="input-group mb-3">
             <input id="input-field" type="text" class="form-control" placeholder="Search Your Mobile"
                 aria-label="Search Your Mobile" aria-describedby="button-addon2">
-            <button class="btn btn-outline-danger " type="button" id="search-button">Search</button>
+            <button class="btn btn-outline-danger" onclick="search()" type="button" id="search-button">Search</button>
         </div>
         <br>
-        <div class="container">
+        <div id="mobile-not-found-message"  class="container ">
             <h3 class="text-danger fw-bold text-center ">Moblie is not found ! Please Search Again</h3>
         </div>
         <br>
@@ -64,17 +66,18 @@
 
     <!-- search result showing section  -->
     <section class="container">
-        <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-4 g-3">
+        <div id="search-result-show" class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-4 g-3">
             <div>
                 <div class="card">
-                    <img src="./shoes/casual-02.png" class="card-img-top" alt="...">
+                    <img src="./casual-02.png" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Mobile Model</h5>
                         <p class="card-text">Brand Name</p>
 
                         <!-- Button trigger modal and showing more details -->
                         <div class="text-center">
-                            <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">See Details</a>
+                            <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">See
+                                Details</a>
                         </div>
                     </div>
                 </div>
