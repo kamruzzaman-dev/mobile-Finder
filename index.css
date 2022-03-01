@@ -2,3 +2,20 @@
 #mobile-not-found-message{
     display: none;
 }
+
+.close-button{
+    top:5%;
+    width: 100%;
+    box-sizing: border-box;
+    position:absolute;
+}
+
+.features-items{
+ margin: auto;
+ padding: auto;
+}
+
+p { 
+    /*  That create a ne line, when he word is to long*/
+    word-break: break-all ;
+  }

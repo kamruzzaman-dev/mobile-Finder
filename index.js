@@ -28,8 +28,8 @@ const showSearchResult = (data) => {
                         <img src=${item.image} alt="...">
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">${item.phone_name}</h5>
-                            <p class="card-text">${item.brand}</p>
+                            <h5 class="card-title">Model : ${item.phone_name}</h5>
+                            <p class="card-text">Brand : ${item.brand}</p>
     
                             <!-- Button trigger modal and showing more details -->
                             <div class="text-left">
@@ -56,6 +56,7 @@ const showDetails = (id) => {
     fetch(url)
         .then(res => res.json())
         .then(data => showDetailsOnPage(data));
+
 }
 
 const showDetailsOnPage = (data) => {
@@ -64,47 +65,61 @@ const showDetailsOnPage = (data) => {
 
     maindiv.textContent = '';
     const div = document.createElement('div');
+    const mobileData = data.data;
 
-    if (data.status == true) {
-        const mobileData = data.data;
+    if (data.status == true && data.data.others) {
+
+
+
+        let releaseDateChecking = mobileData.releaseDate;
+        if(releaseDateChecking === ""){
+            releaseDateChecking = "Date isn't found";
+        }
+
+
+        let otherChecking = mobileData.others;
+        if(otherChecking == undefined){
+
+        }
+
+
+
+
         div.innerHTML = `
-                    <div class="modal-content">
+                    <div class="modal-content close-button">
                          <div class="modal-header">
-                            <h2 class="modal-title text-danger" id="exampleModalLabel">${mobileData.name}</h2>
+                            <h2 class="modal-title text-danger" id="exampleModalLabel"> ${mobileData.brand} ${mobileData.name}</h2>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body p-4">
-                            <div class="d-flex m-2 justify-content-center align-items-center ">
-                                    <div class="card border-0 shadow-none  w-50">
+                            <div class="d-flex m-2  flex-wrap">
+                                    <div class="border-0 shadow-none ">
                                         <div class="p-3">
                                             <img src="${mobileData.image}" class=" img-fluied rounded-start" alt="...">
                                         </div>
                                         <p><span class='fw-bold'>Brand : </span> ${mobileData.brand}</p>
-                                        <p><span class='fw-bold'>Memory : </span>${mobileData.mainFeatures.memory}</p>
-                                        <p><span class='fw-bold'>Relese Date : </span>${mobileData.releaseDate}</p>
+                                        <p><span class='fw-bold'>Relese Date : </span><span class="text-primary">${releaseDateChecking}</span></p>
                                     </div>
 
-                                    <!-- special details part  -->
+                                    
 
-
-
-                                    <div class=" w-50">
-                                        <h5 class="text-danger text-center">Specail Details</h5>
+                                    <div class="features-items">
+                                        <h5 class="text-danger">Main Features</h5>
                                         <p><span class='fw-bold'>Display : </span>${mobileData.mainFeatures.displaySize}</p>
                                         <p><span class='fw-bold'>Chipset : </span>${mobileData.mainFeatures.chipSet}</p>
                                         <p><span class='fw-bold'>Storage : </span>${mobileData.mainFeatures.storage}</p>
+                                        <p><span class='fw-bold'>Memory : </span>${mobileData.mainFeatures.memory}</p>
                                         <p><span class='fw-bold'>Sensor : </span>${mobileData.mainFeatures.sensors} </p>
                                           
-                                        <!-- showing more details part  -->
+                                        <!-- showing more Features details part  -->
 
-                                        <h5 class="text-danger text-center">More Details</h5>
+                                        <h5 class="text-danger">Others Features</h5>
                                         <p><span class='fw-bold'>NFC : </span>${mobileData.others.NFC}</p>
                                         <p><span class='fw-bold'>Bluetooth : </span>${mobileData.others.Bluetooth}</p>
                                         <p><span class='fw-bold'>Radio : </span>${mobileData.others.Radio}</p>
                                         <p><span class='fw-bold'>USB : </span>${mobileData.others.USB}</p>
                                         <p><span class='fw-bold'>GPS : </span>${mobileData.others.GPS}</p>
                                         <p><span class='fw-bold'>WALN : </span>${mobileData.others.WLAN}</p>
-                                        <p><span class=''>Review : </span> <span class='text-warning'> <i class="fa-solid fa-star "></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> </span> </p>
                                     </div>
 
 
