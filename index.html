@@ -18,47 +18,48 @@
 
 
 
-    <!-- indiv mobile details showing with  model -->
-<!-- 
 
-    <div class="modal fade modal-dialog modal-dialog-centered" id="exampleModal" tabindex="-1"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Mobile Model</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <img src="./casual-02.png" class="card-img-top img-fluid" alt="...">
-                    <h5>Mobile Model </h5>
-                    <p>Relasce Date : </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
 
 
     <!-- bannar/headline section  -->
 
-    <h1 class="container bg-danger text-white text-capitalize text-center p-3">YOYO!! showUp's
-    </h1>
+    <header>
 
-    <div class="container w-50 m-auto">
-        <!-- search section -->
-        <div class="input-group mb-3">
-            <input id="input-field" type="text" class="form-control" placeholder="Search Your Mobile"
-                aria-label="Search Your Mobile" aria-describedby="button-addon2">
-            <button class="btn btn-outline-danger" onclick="search()" type="button" id="search-button">Search</button>
+        <h1 class="container bg-danger text-white text-capitalize text-center p-3">YOYO!! showUp's
+        </h1>
+
+        <div class="container w-50 m-auto">
+            <!-- search section -->
+            <div class="input-group mb-3">
+                <input id="input-field" type="text" class="form-control" placeholder="Search Your Mobile"
+                    aria-label="Search Your Mobile" aria-describedby="button-addon2">
+                <button class="btn btn-outline-danger" onclick="search()" type="button"
+                    id="search-button">Search</button>
+            </div>
+            <br>
+            <div id="mobile-not-found-message" class="container ">
+                <h3 class="text-danger fw-bold text-center ">Moblie is not found ! Please Search Again</h3>
+            </div>
+            <br>
         </div>
-        <br>
-        <div id="mobile-not-found-message"  class="container ">
-            <h3 class="text-danger fw-bold text-center ">Moblie is not found ! Please Search Again</h3>
+
+    </header>
+
+
+    <!-- indiv mobile details showing with  model -->
+    <div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-modal="true"
+            role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+
+                <div id="product-page-details">
+
+
+                </div>
+
+            </div>
         </div>
-        <br>
+
     </div>
 
 
@@ -79,11 +80,18 @@
                             <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">See
                                 Details</a>
                         </div>
+
                     </div>
                 </div>
             </div>
 
         </div>
+
+
+
+
+
+
 
         <!-- showing more card for click this button -->
         <div class="container text-center">
