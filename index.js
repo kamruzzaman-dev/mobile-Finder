@@ -1,5 +1,5 @@
 // for spinner section 
-const toggleSpinner = displayStyle =>{
+const toggleSpinner = displayStyle => {
     document.getElementById('spinner').style.display = displayStyle;
 }
 
@@ -17,6 +17,7 @@ const search = async () => {
     // error showing for emapty and no mobile found 
     document.getElementById('mobile-not-found-message').style.display = 'none';
     document.getElementById('search-field-empty').style.display = 'none';
+   
 
 
     // for showing spinner 
@@ -33,24 +34,25 @@ const search = async () => {
 
         const res = await fetch(url);
         const data = await res.json();
-        showSearchResult(data); // data send another function for showing founded result 
+        if (data.status == true) {
+            showSearchResult(data.data); // data send another function for showing founded result 
+        } else {
+            // mobile data is found OR means user typed wrong mobile model
+            document.getElementById('mobile-not-found-message').style.display = 'block';
+            toggleSpinner('none');
+        }
 
     }
 
 
 }
 
+// for display show mobile phone 
 
-const showSearchResult = (data) => {
-    console.log(data);
-
-    const searchResultShow = document.getElementById('search-result-show');
-
-    if (data.status == true) {
-        const dataArray = data.data;
-        for (const item of dataArray) {
-            const div = document.createElement('div');
-            div.innerHTML = `
+function displauMobilePhone(searchResultShow, mobiles) {
+    for (const item of mobiles) {
+        const div = document.createElement('div');
+        div.innerHTML = `
             <div class="card">
                         <div class="p-4 m-auto">
                         <img src=${item.image} alt="...">
@@ -67,14 +69,57 @@ const showSearchResult = (data) => {
                         </div>
                     </div>
             `
-            searchResultShow.appendChild(div);
-        }
-        toggleSpinner('none');
-    } else {
-        // mobile data is found OR means user typed wrong mobile model
-        document.getElementById('mobile-not-found-message').style.display = 'block';
-        toggleSpinner('none');
+        searchResultShow.appendChild(div);
     }
+}
+
+
+
+
+const showSearchResult = mobiles => {
+    console.log(mobiles); // mobiles is array now 
+
+    const searchResultShow = document.getElementById('search-result-show');
+
+    const mobileItemsNumber = mobiles.length;
+    console.log(mobileItemsNumber);
+
+    const newMobilesList = [];
+    const moreMobileList = [];
+    if (mobileItemsNumber >= 20) {
+
+        //showing first 20 mobile on UI
+        for (let i = 0; i < 20; i++) {
+
+            newMobilesList.push(mobiles[i]);
+        }
+        displauMobilePhone(searchResultShow, newMobilesList);
+        document.getElementById('show-more').style.display = 'block';
+
+
+        toggleSpinner('none');
+
+        // clicked show-more button then show rest of mobiles on UI
+        document.getElementById('show-more').addEventListener('click', function(){
+            for (let i = 20; i < mobileItemsNumber; i++) {
+                moreMobileList.push(mobiles[i]);
+            }
+            displauMobilePhone(searchResultShow, moreMobileList);
+            document.getElementById('show-more').style.display = 'none';
+        });
+
+
+
+    } else {
+        displauMobilePhone(searchResultShow, mobiles);
+
+        console.log('less than 20 ');
+    }
+
+
+
+
+    toggleSpinner('none');
 
 
     // input feild are clear 
