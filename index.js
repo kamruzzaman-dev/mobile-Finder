@@ -9,7 +9,6 @@ const search = async () => {
     // case sensative section add
     const inputFieldText = inputField.toLowerCase();
 
-
     const searchResultShow = document.getElementById('search-result-show');
     // clear the pervious content on the page 
     searchResultShow.textContent = '';
@@ -17,12 +16,10 @@ const search = async () => {
     // error showing for emapty and no mobile found 
     document.getElementById('mobile-not-found-message').style.display = 'none';
     document.getElementById('search-field-empty').style.display = 'none';
-   
-
-
+    document.getElementById('show-more').style.display = 'none';
+    
     // for showing spinner 
     toggleSpinner('block');
-
 
     // for input field is emptry
     if (inputField == '') {
@@ -41,15 +38,11 @@ const search = async () => {
             document.getElementById('mobile-not-found-message').style.display = 'block';
             toggleSpinner('none');
         }
-
     }
-
-
 }
 
-// for display show mobile phone 
-
-function displauMobilePhone(searchResultShow, mobiles) {
+// for show mobile phone on UI/page 
+const displauMobilePhone = (searchResultShow, mobiles) => {
     for (const item of mobiles) {
         const div = document.createElement('div');
         div.innerHTML = `
@@ -77,50 +70,37 @@ function displauMobilePhone(searchResultShow, mobiles) {
 
 
 const showSearchResult = mobiles => {
-    console.log(mobiles); // mobiles is array now 
-
     const searchResultShow = document.getElementById('search-result-show');
 
-    const mobileItemsNumber = mobiles.length;
-    console.log(mobileItemsNumber);
+    const mobileItemsNumber = mobiles.length; // for find more than 20 mobile has or not 
 
-    const newMobilesList = [];
-    const moreMobileList = [];
+    const newMobilesList = []; // for 20 mobile information store
+    const moreMobileList = []; // for rest of the mobile information store
     if (mobileItemsNumber >= 20) {
 
         //showing first 20 mobile on UI
         for (let i = 0; i < 20; i++) {
-
             newMobilesList.push(mobiles[i]);
         }
         displauMobilePhone(searchResultShow, newMobilesList);
         document.getElementById('show-more').style.display = 'block';
-
-
         toggleSpinner('none');
 
         // clicked show-more button then show rest of mobiles on UI
-        document.getElementById('show-more').addEventListener('click', function(){
+        document.getElementById('show-more').addEventListener('click', function () {
             for (let i = 20; i < mobileItemsNumber; i++) {
                 moreMobileList.push(mobiles[i]);
             }
             displauMobilePhone(searchResultShow, moreMobileList);
+            //show rest of mobile and then button is hidden 
             document.getElementById('show-more').style.display = 'none';
         });
 
-
-
     } else {
         displauMobilePhone(searchResultShow, mobiles);
-
-        console.log('less than 20 ');
     }
-
-
-
-
+    // loading done and then of turn of 
     toggleSpinner('none');
-
 
     // input feild are clear 
     document.getElementById('input-field').value = '';
@@ -128,68 +108,55 @@ const showSearchResult = mobiles => {
 
 
 // show details on page after it selecting 
-const showDetails = (id) => {
+const showDetails = async id => {
     const url = `https://openapi.programming-hero.com/api/phone/${id}`
 
     // api call and load
-    fetch(url)
-        .then(res => res.json())
-        .then(data => showDetailsOnPage(data))
-        .catch(error => console.log(error))
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.status == true) {
+        showDetailsOnPage(data.data);
+    } else {
+        console.log('mobile details is not founded');
+    }
 
 }
 
-const showDetailsOnPage = (data) => {
+const showDetailsOnPage = mobileData => {
     // pervious contant are clear 
     const maindiv = document.getElementById('product-page-details');
     maindiv.textContent = '';
 
-
+    // create a new div for append 
     const div = document.createElement('div');
-    const mobileData = data.data;
 
-    if (data.status === true) {
-
-
-
-        let releaseDateChecking = mobileData.releaseDate;
-        if (releaseDateChecking === "") {
-            releaseDateChecking = "Date isn't found";
-        }
+    // release Data update 
+    let releaseDateChecking = mobileData.releaseDate;
+    if (releaseDateChecking === "") {
+        releaseDateChecking = "Date isn't found";
+    }
 
 
-        let otherChecking = mobileData.others;
-        if (otherChecking == undefined) {
+    //  Destructuring Objectn and store in variable as the same name they have 
+    const { displaySize, chipSet, storage, memory, sensors } = mobileData.mainFeatures;
 
-        }
-
-
-
-        //  Destructuring Objectn and store in variable as the same name they have 
-        const { displaySize, chipSet, storage, memory, sensors } = mobileData.mainFeatures;
-
-
-
-
-        // other information is handleing this codde 
-        let NFC, Bluetooth, Radio, USB, GPS, WLAN;
-        const otherObject = mobileData.others;
-        if (otherObject === undefined) {
-            NFC = Bluetooth = Radio = USB = GPS = WLAN = 'data is not found';
-        } else {
-            NFC = mobileData.others.NFC;
-            Bluetooth = mobileData.others.Bluetooth;
-            Radio = mobileData.others.Radio;
-            USB = mobileData.others.USB;
-            GPS = mobileData.others.GPS;
-            WLAN = mobileData.others.WLAN;
-        }
+    // other information is handleing this codde 
+    let NFC, Bluetooth, Radio, USB, GPS, WLAN;
+    const otherObject = mobileData.others;
+    if (otherObject === undefined) {
+        NFC = Bluetooth = Radio = USB = GPS = WLAN = 'data is not found';
+    } else {
+        NFC = mobileData.others.NFC;
+        Bluetooth = mobileData.others.Bluetooth;
+        Radio = mobileData.others.Radio;
+        USB = mobileData.others.USB;
+        GPS = mobileData.others.GPS;
+        WLAN = mobileData.others.WLAN;
+    }
 
 
-
-
-        // html code is ganarating with bootsrtap css code 
-        div.innerHTML = `
+    // html code is ganarating with bootsrtap css code 
+    div.innerHTML = `
                     <div class="modal-content close-button">
                          <div class="modal-header">
                             <h2 class="modal-title text-danger" id="exampleModalLabel"> ${mobileData.brand} ${mobileData.name}</h2>
@@ -205,9 +172,10 @@ const showDetailsOnPage = (data) => {
                                         <p><span class='fw-bold'>Relese Date : </span><span class="text-primary">${releaseDateChecking}</span></p>
                                     </div>
 
-                                    
-
                                     <div class="features-items">
+
+                                        <!-- showing Main Features details part  -->
+
                                         <h5 class="text-danger">Main Features</h5>
                                         <p><span class='fw-bold'>Display : </span>${displaySize}</p>
                                         <p><span class='fw-bold'>Chipset : </span>${chipSet}</p>
@@ -225,17 +193,10 @@ const showDetailsOnPage = (data) => {
                                         <p><span class='fw-bold'>GPS : </span>${GPS}</p>
                                         <p><span class='fw-bold'>WALN : </span>${WLAN}</p>
                                     </div>
-
-
-                                  
-
                             </div>
                         </div>
                     </div>
   `
-        maindiv.appendChild(div);
+    maindiv.appendChild(div);
 
-    } else {
-        console.log('mobile details is not founded');
-    }
 }
