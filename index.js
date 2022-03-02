@@ -1,22 +1,39 @@
-const search = () => {
+const search = async () => {
     const inputField = document.getElementById('input-field').value;
-    // bouns marks => case sensative section add
+    // case sensative section add
     const inputFieldText = inputField.toLowerCase();
-    // API call
-    const url = `https://openapi.programming-hero.com/api/phones?search=${inputFieldText}`;
-    fetch(url)
-        .then(res => res.json())
-        .then(data => showSearchResult(data));
+
+
+    const searchResultShow = document.getElementById('search-result-show');
+    // clear the pervious content on the page 
+    searchResultShow.textContent = '';
+
+    // error showing for emapty and no mobile found 
+    document.getElementById('mobile-not-found-message').style.display = 'none';
+    document.getElementById('search-field-empty').style.display = 'none';
+
+
+    // for input field is emptry
+    if (inputField == '') {
+        document.getElementById('search-field-empty').style.display = 'block';
+    } else {
+        // API call
+        const url = `https://openapi.programming-hero.com/api/phones?search=${inputFieldText}`;
+
+        const res = await fetch(url);
+        const data = await res.json();
+        showSearchResult(data); // data send another function for showing founded result 
+
+    }
+
+
 }
 
 
 const showSearchResult = (data) => {
-    const searchResultShow = document.getElementById('search-result-show');
     console.log(data);
-
-    // clear the pervious content on the page 
-    document.getElementById('mobile-not-found-message').style.display = 'none';
-    searchResultShow.textContent = '';
+    
+    const searchResultShow = document.getElementById('search-result-show');
 
     if (data.status == true) {
         const dataArray = data.data;
@@ -47,7 +64,7 @@ const showSearchResult = (data) => {
 
 
     // input feild are clear 
-    document.getElementById('input-field').value='';
+    document.getElementById('input-field').value = '';
 }
 
 
@@ -94,15 +111,15 @@ const showDetailsOnPage = (data) => {
 
 
         // other information is handleing this codde 
-        let NFC, Bluetooth, Radio, USB, GPS, WLAN ;
+        let NFC, Bluetooth, Radio, USB, GPS, WLAN;
         const otherObject = mobileData.others;
-        if(otherObject === undefined){
-            NFC= Bluetooth= Radio= USB= GPS= WLAN= 'data is found';
-        }else{
-            NFC= mobileData.others.NFC;
-            Bluetooth=mobileData.others.Bluetooth;
+        if (otherObject === undefined) {
+            NFC = Bluetooth = Radio = USB = GPS = WLAN = 'data is found';
+        } else {
+            NFC = mobileData.others.NFC;
+            Bluetooth = mobileData.others.Bluetooth;
             Radio = mobileData.others.Radio;
-            USB =mobileData.others.USB;
+            USB = mobileData.others.USB;
             GPS = mobileData.others.GPS;
             WLAN = mobileData.others.WLAN;
         }
