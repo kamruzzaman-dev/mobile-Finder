@@ -1,3 +1,9 @@
+// for spinner section 
+const toggleSpinner = displayStyle =>{
+    document.getElementById('spinner').style.display = displayStyle;
+}
+
+
 const search = async () => {
     const inputField = document.getElementById('input-field').value;
     // case sensative section add
@@ -13,9 +19,14 @@ const search = async () => {
     document.getElementById('search-field-empty').style.display = 'none';
 
 
+    // for showing spinner 
+    toggleSpinner('block');
+
+
     // for input field is emptry
     if (inputField == '') {
         document.getElementById('search-field-empty').style.display = 'block';
+        toggleSpinner('none');
     } else {
         // API call
         const url = `https://openapi.programming-hero.com/api/phones?search=${inputFieldText}`;
@@ -32,7 +43,7 @@ const search = async () => {
 
 const showSearchResult = (data) => {
     console.log(data);
-    
+
     const searchResultShow = document.getElementById('search-result-show');
 
     if (data.status == true) {
@@ -58,8 +69,11 @@ const showSearchResult = (data) => {
             `
             searchResultShow.appendChild(div);
         }
+        toggleSpinner('none');
     } else {
+        // mobile data is found OR means user typed wrong mobile model
         document.getElementById('mobile-not-found-message').style.display = 'block';
+        toggleSpinner('none');
     }
 
 
@@ -72,18 +86,20 @@ const showSearchResult = (data) => {
 const showDetails = (id) => {
     const url = `https://openapi.programming-hero.com/api/phone/${id}`
 
-    // api load
+    // api call and load
     fetch(url)
         .then(res => res.json())
-        .then(data => showDetailsOnPage(data));
+        .then(data => showDetailsOnPage(data))
+        .catch(error => console.log(error))
 
 }
 
 const showDetailsOnPage = (data) => {
-    console.log(data);
+    // pervious contant are clear 
     const maindiv = document.getElementById('product-page-details');
-
     maindiv.textContent = '';
+
+
     const div = document.createElement('div');
     const mobileData = data.data;
 
@@ -114,7 +130,7 @@ const showDetailsOnPage = (data) => {
         let NFC, Bluetooth, Radio, USB, GPS, WLAN;
         const otherObject = mobileData.others;
         if (otherObject === undefined) {
-            NFC = Bluetooth = Radio = USB = GPS = WLAN = 'data is found';
+            NFC = Bluetooth = Radio = USB = GPS = WLAN = 'data is not found';
         } else {
             NFC = mobileData.others.NFC;
             Bluetooth = mobileData.others.Bluetooth;
