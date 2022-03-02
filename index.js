@@ -45,6 +45,9 @@ const showSearchResult = (data) => {
         document.getElementById('mobile-not-found-message').style.display = 'block';
     }
 
+
+    // input feild are clear 
+    document.getElementById('input-field').value='';
 }
 
 
@@ -67,24 +70,47 @@ const showDetailsOnPage = (data) => {
     const div = document.createElement('div');
     const mobileData = data.data;
 
-    if (data.status == true && data.data.others) {
+    if (data.status === true) {
 
 
 
         let releaseDateChecking = mobileData.releaseDate;
-        if(releaseDateChecking === ""){
+        if (releaseDateChecking === "") {
             releaseDateChecking = "Date isn't found";
         }
 
 
         let otherChecking = mobileData.others;
-        if(otherChecking == undefined){
+        if (otherChecking == undefined) {
 
         }
 
 
 
+        //  Destructuring Objectn and store in variable as the same name they have 
+        const { displaySize, chipSet, storage, memory, sensors } = mobileData.mainFeatures;
 
+
+
+
+        // other information is handleing this codde 
+        let NFC, Bluetooth, Radio, USB, GPS, WLAN ;
+        const otherObject = mobileData.others;
+        if(otherObject === undefined){
+            NFC= Bluetooth= Radio= USB= GPS= WLAN= 'data is found';
+        }else{
+            NFC= mobileData.others.NFC;
+            Bluetooth=mobileData.others.Bluetooth;
+            Radio = mobileData.others.Radio;
+            USB =mobileData.others.USB;
+            GPS = mobileData.others.GPS;
+            WLAN = mobileData.others.WLAN;
+        }
+
+
+
+
+        // html code is ganarating with bootsrtap css code 
         div.innerHTML = `
                     <div class="modal-content close-button">
                          <div class="modal-header">
@@ -105,21 +131,21 @@ const showDetailsOnPage = (data) => {
 
                                     <div class="features-items">
                                         <h5 class="text-danger">Main Features</h5>
-                                        <p><span class='fw-bold'>Display : </span>${mobileData.mainFeatures.displaySize}</p>
-                                        <p><span class='fw-bold'>Chipset : </span>${mobileData.mainFeatures.chipSet}</p>
-                                        <p><span class='fw-bold'>Storage : </span>${mobileData.mainFeatures.storage}</p>
-                                        <p><span class='fw-bold'>Memory : </span>${mobileData.mainFeatures.memory}</p>
-                                        <p><span class='fw-bold'>Sensor : </span>${mobileData.mainFeatures.sensors} </p>
+                                        <p><span class='fw-bold'>Display : </span>${displaySize}</p>
+                                        <p><span class='fw-bold'>Chipset : </span>${chipSet}</p>
+                                        <p><span class='fw-bold'>Storage : </span>${storage}</p>
+                                        <p><span class='fw-bold'>Memory : </span>${memory}</p>
+                                        <p><span class='fw-bold'>Sensor : </span>${sensors} </p>
                                           
                                         <!-- showing more Features details part  -->
 
                                         <h5 class="text-danger">Others Features</h5>
-                                        <p><span class='fw-bold'>NFC : </span>${mobileData.others.NFC}</p>
-                                        <p><span class='fw-bold'>Bluetooth : </span>${mobileData.others.Bluetooth}</p>
-                                        <p><span class='fw-bold'>Radio : </span>${mobileData.others.Radio}</p>
-                                        <p><span class='fw-bold'>USB : </span>${mobileData.others.USB}</p>
-                                        <p><span class='fw-bold'>GPS : </span>${mobileData.others.GPS}</p>
-                                        <p><span class='fw-bold'>WALN : </span>${mobileData.others.WLAN}</p>
+                                        <p><span class='fw-bold'>NFC : </span>${NFC}</p>
+                                        <p><span class='fw-bold'>Bluetooth : </span>${Bluetooth}</p>
+                                        <p><span class='fw-bold'>Radio : </span>${Radio}</p>
+                                        <p><span class='fw-bold'>USB : </span>${USB}</p>
+                                        <p><span class='fw-bold'>GPS : </span>${GPS}</p>
+                                        <p><span class='fw-bold'>WALN : </span>${WLAN}</p>
                                     </div>
 
 
